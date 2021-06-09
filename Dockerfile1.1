@@ -1,0 +1,25 @@
+FROM openjdk:14-alpine
+
+RUN apk update && apk upgrade && \
+    apk add \
+    git \
+    maven
+
+RUN mkdir /code && \
+    cd /code && \
+    git clone https://gitlab.com/DevNotes.it/java/springbootshoopinglist-demo.git . && \
+    mvn package && \
+    mkdir /opt/app && \
+    mv /code/target/DemoApp.jar /opt/app && \
+    cd / && \
+    rm -r /code
+
+RUN apk del \
+    git \
+    maven
+
+EXPOSE 8080
+
+WORKDIR /opt/app
+
+CMD java -jar /opt/app/DemoApp.jar
