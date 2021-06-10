@@ -1,19 +1,5 @@
-FROM ubuntu:20.04
-
-ENV TZ=Europe/Warsaw
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-   
-RUN apt update && apt upgrade -y && \
-    apt install -y \
-    git \
-    vim \
-    openjdk-14-jdk \
-    maven 
-
-RUN mkdir /opt/code 
-
-WORKDIR /opt/code
-
-COPY sourcecode.txt .
-
-CMD sleep 300
+FROM ubuntu:18.04
+WORKDIR /home
+RUN apt update -y && apt install curl openjdk-11-jdk git maven -y 
+RUN adduser --disabled-password --gecos "" jenkins
+RUN curl -fsSL https://get.docker.com/ | sh 
